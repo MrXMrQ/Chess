@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 1848877234873070797}
   - component: {fileID: 4789876565463862934}
   - component: {fileID: 2252950164538541317}
+  - component: {fileID: 4455470184526566976}
   - component: {fileID: 7490484771718179808}
   m_Layer: 0
   m_Name: pawn
-  m_TagString: Untagged
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,6 +88,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4455470184526566976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3029021717562689939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b3688c5912f7fc46a77da79d6e036f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTile: {fileID: 0}
+  isWhite: 0
+  moveDirection: []
+  firstMove: 1
 --- !u!136 &7490484771718179808
 CapsuleCollider:
   m_ObjectHideFlags: 0
