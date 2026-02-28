@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3592250938540123847}
   - component: {fileID: 4074582488323809739}
   - component: {fileID: 54873631022326983}
+  - component: {fileID: 8453610063285398185}
   - component: {fileID: 3633146855470081903}
   m_Layer: 0
   m_Name: knight
@@ -87,6 +88,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8453610063285398185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5493110666682103698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4af283ec41250d742a820ae573257f3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTile: {fileID: 0}
+  isWhite: 0
+  moveDirection: []
 --- !u!135 &3633146855470081903
 SphereCollider:
   m_ObjectHideFlags: 0

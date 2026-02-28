@@ -37,9 +37,19 @@ public class Piece : MonoBehaviour
 
     }
 
-    public static bool IndexExists<T>(T[,] array, int i, int j)
+    protected bool IndexExists<T>(T[,] array, int i, int j)
     {
         return i >= 0 && i < array.GetLength(0) &&
                j >= 0 && j < array.GetLength(1);
+    }
+
+    protected Tile GetTile(int x, int z, Tile[,] grid)
+    {
+        if (!IndexExists<Tile>(grid, x, z))
+        {
+            return null;
+        }
+
+        return grid[x, z];
     }
 }
