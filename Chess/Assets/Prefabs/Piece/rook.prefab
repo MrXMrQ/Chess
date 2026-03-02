@@ -126,3 +126,4 @@ MonoBehaviour:
   currentTile: {fileID: 0}
   isWhite: 0
   moveDirection: []
+  firstMove: 1

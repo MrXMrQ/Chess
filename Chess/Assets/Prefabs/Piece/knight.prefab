@@ -103,6 +103,7 @@ MonoBehaviour:
   currentTile: {fileID: 0}
   isWhite: 0
   moveDirection: []
+  firstMove: 1
 --- !u!135 &3633146855470081903
 SphereCollider:
   m_ObjectHideFlags: 0

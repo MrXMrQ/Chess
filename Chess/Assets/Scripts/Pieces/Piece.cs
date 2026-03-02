@@ -6,11 +6,7 @@ public class Piece : MonoBehaviour
     public Tile currentTile;
     public bool isWhite = false;
     public Vector2Int[] moveDirection = { };
-
-    public virtual void Test()
-    {
-        Debug.Log("Piece");
-    }
+    public bool firstMove = true;
 
     public virtual List<Tile> CalcValidMoves(Tile[,] grid)
     {
@@ -26,15 +22,16 @@ public class Piece : MonoBehaviour
         }
 
         currentTile.piece = null;
+        targetTile.pieceScript = currentTile.pieceScript; // copies script
+        currentTile.pieceScript = null;
 
         currentTile = targetTile;
         targetTile.piece = gameObject;
 
+
         Vector3 newPos = targetTile.transform.position;
         newPos.y += y; // same hight
         transform.position = newPos;
-
-
     }
 
     protected bool IndexExists<T>(T[,] array, int i, int j)

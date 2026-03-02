@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public GameObject piece;
+    public GameObject piece; // The GameObject
+    public Piece pieceScript; // Add this to track the logic/data
     public GameObject marker;
     private GameObject markerInstance;
     private bool isMarked = false;
@@ -17,25 +18,20 @@ public class Tile : MonoBehaviour
         y = 2;
     }
 
-    public void Spawn(PieceSpawnData piece)
+    public void Spawn(GameObject prefab, bool isWhite, Material mat)
     {
-        piece.prefab.GetComponent<Renderer>().material = piece.material;
-
         Vector3 spawnPosition = transform.position;
         spawnPosition.y += y;
 
-        GameObject gameObject = Instantiate(piece.prefab, spawnPosition, Quaternion.identity);
-        gameObject.name = $"{piece.prefab.name} {x} {z} {(piece.isWhite ? "white" : "black")}";
-        this.piece = gameObject;
+        GameObject go = Instantiate(prefab, spawnPosition, Quaternion.identity);
+        this.piece = go;
+        this.pieceScript = go.GetComponent<Piece>();
 
-        Piece pieceSkript = gameObject.GetComponent<Piece>();
-        if (pieceSkript != null)
+        if (pieceScript != null)
         {
-            pieceSkript.currentTile = this;
-            if (piece.isWhite)
-            {
-                pieceSkript.isWhite = true;
-            }
+            pieceScript.currentTile = this;
+            pieceScript.isWhite = isWhite;
+            go.GetComponentInChildren<Renderer>().material = mat;
         }
     }
 

@@ -19,7 +19,15 @@ public class GridManager : MonoBehaviour
     void Start()
     {
         GenerateGrid();
-        SpawnPieces();
+
+        if (SaveGameManager.Instance != null && SaveGameManager.Instance.flag)
+        {
+            LoadGame();
+        }
+        else
+        {
+            SpawnPieces();
+        }
     }
 
     void GenerateGrid()
@@ -56,7 +64,7 @@ public class GridManager : MonoBehaviour
         {
             foreach (var pos in piece.positions)
             {
-                grid[pos.x, pos.y].Spawn(piece);
+                grid[pos.x, pos.y].Spawn(piece.prefab, piece.isWhite, piece.material);
             }
         }
     }
@@ -175,21 +183,68 @@ public class GridManager : MonoBehaviour
 
         if (piece == null) return;
 
-        if (piece is Pawn)
-        {
-            Pawn pawn = (Pawn)piece;
-            if (pawn.firstMove)
-            {
-                pawn.firstMove = false;
-            }
-
-        }
-
+        UnmarkValidMoves();
+        piece.firstMove = false;
         piece.MoveTo(targetTile, y);
 
-        UnmarkValidMoves();
+        if (piece is Pawn)
+        {
+            if (piece.currentTile.z == 0 || piece.currentTile.z == height - 1)
+            {
+                Pawn pawn = (Pawn)piece;
+                SaveGame();
+                pawn.Promotion();
+            }
+        }
 
         selection.GetComponent<Outline>().enabled = false;
         selection = null;
+    }
+
+    public void SaveGame()
+    {
+        SaveGameManager.Instance.savedPieces.Clear();
+        foreach (Tile t in grid)
+        {
+            if (t.pieceScript != null)
+            {
+                SaveData data = new SaveData();
+                data.x = t.x;
+                data.z = t.z;
+                data.isWhite = t.pieceScript.isWhite;
+
+                string cleanName = t.pieceScript.gameObject.name;
+                int cloneIndex = cleanName.IndexOf("(Clone)");
+                if (cloneIndex > 0)
+                {
+                    cleanName = cleanName.Substring(0, cloneIndex).Trim();
+                }
+
+                data.prefabName = cleanName;
+                SaveGameManager.Instance.savedPieces.Add(data);
+            }
+        }
+        SaveGameManager.Instance.flag = true;
+    }
+
+    private void LoadGame()
+    {
+        foreach (var data in SaveGameManager.Instance.savedPieces)
+        {
+            bool found = false;
+            foreach (var pData in pieceManager.pieces)
+            {
+                if (pData.prefab.name == data.prefabName && pData.isWhite == data.isWhite)
+                {
+                    grid[data.x, data.z].Spawn(pData.prefab, pData.isWhite, pData.material);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                Debug.LogWarning("Cant find " + data.prefabName);
+            }
+        }
     }
 }

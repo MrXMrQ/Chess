@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   piece: {fileID: 0}
+  pieceScript: {fileID: 0}
   marker: {fileID: 2242383153156793569, guid: 6151c19456581764e9ff5d25d17938c8, type: 3}
   x: 0
   y: 2

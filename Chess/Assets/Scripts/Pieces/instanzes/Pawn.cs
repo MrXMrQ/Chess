@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Pawn : Piece
 {
@@ -10,12 +11,6 @@ public class Pawn : Piece
     };
 
     private int direction => isWhite ? 1 : -1;
-    public bool firstMove = true;
-
-    public override void Test()
-    {
-        Debug.Log($"Pawn @ {currentTile.x}, {currentTile.z}");
-    }
 
     public override List<Tile> CalcValidMoves(Tile[,] grid)
     {
@@ -30,6 +25,14 @@ public class Pawn : Piece
         }
 
         return moves;
+    }
+
+    public void Promotion()
+    {
+        string side = isWhite ? "white" : "black";
+        Debug.Log($"{side} can be promoted!");
+
+        SceneManager.LoadScene("promotion");
     }
 
     private void TryAddForwardMove(Tile[,] grid, List<Tile> moves)
