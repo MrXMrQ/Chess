@@ -18,6 +18,12 @@ public class Tile : MonoBehaviour
         y = 2;
     }
 
+    public void Clear()
+    {
+        Destroy(piece);
+        pieceScript = null;
+    }
+
     public void Spawn(GameObject prefab, bool isWhite, Material mat)
     {
         Vector3 spawnPosition = transform.position;

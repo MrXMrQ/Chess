@@ -9,7 +9,7 @@ public class GridManager : MonoBehaviour
     public GameObject tile;
     public Material[] materials;
     public PieceManager pieceManager;
-    private List<Tile> validMoves;
+    private List<Tile> validMoves = new List<Tile>();
     private Tile[,] grid;
     private Transform highlight;
     private Transform selection;
@@ -23,10 +23,29 @@ public class GridManager : MonoBehaviour
         if (SaveGameManager.Instance != null && SaveGameManager.Instance.flag)
         {
             LoadGame();
+            Replace();
         }
         else
         {
             SpawnPieces();
+        }
+    }
+
+    // GridManager.Replace():
+    void Replace()
+    {
+        int x = SaveGameManager.Instance.pos.x;
+        int z = SaveGameManager.Instance.pos.y;
+        grid[x, z].Clear();
+
+        foreach (var pData in pieceManager.pieces)
+        {
+            if (pData.prefab.name == SaveGameManager.Instance.selectionPrefabName
+                && pData.isWhite == SaveGameManager.Instance.selectionIsWhite)
+            {
+                grid[x, z].Spawn(pData.prefab, pData.isWhite, pData.material);
+                break;
+            }
         }
     }
 
@@ -73,7 +92,10 @@ public class GridManager : MonoBehaviour
     {
         foreach (var item in validMoves)
         {
-            item.Mark();
+            if (item != null)
+            {
+                item.Mark();
+            }
         }
     }
 
@@ -81,7 +103,10 @@ public class GridManager : MonoBehaviour
     {
         foreach (var item in validMoves)
         {
-            item.Unmark();
+            if (item != null)
+            {
+                item.Unmark();
+            }
         }
     }
 
@@ -192,6 +217,8 @@ public class GridManager : MonoBehaviour
             if (piece.currentTile.z == 0 || piece.currentTile.z == height - 1)
             {
                 Pawn pawn = (Pawn)piece;
+                SaveGameManager.Instance.pos = new Vector2Int(pawn.currentTile.x, pawn.currentTile.z);
+                SaveGameManager.Instance.callerIsWhite = pawn.isWhite;
                 SaveGame();
                 pawn.Promotion();
             }

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -5,9 +6,31 @@ using UnityEngine.SceneManagement;
 
 public class SelectionManager : MonoBehaviour
 {
+    public GameObject[] prefabs;
+    public Material[] mats;
+    public Vector3 pos;
+    public int offset;
     private Transform highlight;
     private Transform selection;
     private RaycastHit raycastHit;
+
+    void Start()
+    {
+        foreach (var item in prefabs)
+        {
+            if (SaveGameManager.Instance.callerIsWhite)
+            {
+                item.GetComponent<Renderer>().material = mats[0];
+            }
+            else
+            {
+                item.GetComponent<Renderer>().material = mats[1];
+            }
+
+            Instantiate(item, pos, Quaternion.identity);
+            pos = new Vector3(pos.x + offset, pos.y, pos.z);
+        }
+    }
 
     void Update()
     {
@@ -58,7 +81,11 @@ public class SelectionManager : MonoBehaviour
 
                 if (piece != null)
                 {
-                    Debug.Log(piece);
+                    // Statt: SaveGameManager.Instance.selection = selection.gameObject;
+                    SaveGameManager.Instance.selectionPrefabName = piece.gameObject.name
+                        .Replace("(Clone)", "").Trim();
+                    SaveGameManager.Instance.selectionIsWhite = SaveGameManager.Instance.callerIsWhite;
+
                     SceneManager.LoadScene("default");
                 }
 

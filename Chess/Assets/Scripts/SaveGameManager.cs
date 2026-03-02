@@ -14,6 +14,10 @@ public class SaveGameManager : MonoBehaviour
     public static SaveGameManager Instance;
     public List<SaveData> savedPieces = new List<SaveData>(); // Store data, not Tiles
     public bool flag = false;
+    public string selectionPrefabName;
+    public bool selectionIsWhite;
+    public Vector2Int pos;
+    public bool callerIsWhite;
 
     private void Awake()
     {
