@@ -11,6 +11,10 @@ public class Tile : MonoBehaviour
     public int y;
     public int z;
 
+    private Transform highlight;
+    private Transform selection;
+    private RaycastHit raycastHit;
+
     public void Setup(int x, int z)
     {
         this.x = x;
@@ -49,11 +53,21 @@ public class Tile : MonoBehaviour
         markerInstance = Instantiate(marker, spawnPosition, Quaternion.identity);
         markerInstance.name = $"{marker.name} {x} {z}";
 
+        if (pieceScript != null)
+        {
+            pieceScript.Highlight();
+        }
+
         isMarked = true;
     }
 
     public void Unmark()
     {
+        if (pieceScript != null)
+        {
+            pieceScript.RemoveHighlight();
+        }
+
         Destroy(markerInstance);
         isMarked = false;
     }

@@ -7,6 +7,17 @@ public class Piece : MonoBehaviour
     public bool isWhite = false;
     public Vector2Int[] moveDirection = { };
     public bool firstMove = true;
+    public Color color = Color.red;
+    public float brightness = 6f;
+
+    private Renderer rend;
+    private Material originalMaterial;
+
+    void Awake()
+    {
+        rend = GetComponentInChildren<Renderer>();
+        originalMaterial = rend.material;
+    }
 
     public virtual List<Tile> CalcValidMoves(Tile[,] grid)
     {
@@ -48,5 +59,16 @@ public class Piece : MonoBehaviour
         }
 
         return grid[x, z];
+    }
+
+    public void Highlight()
+    {
+        rend.material.EnableKeyword("_EMISSION");
+        rend.material.SetColor("_EmissionColor", color * brightness);
+    }
+
+    public void RemoveHighlight()
+    {
+        rend.material.DisableKeyword("_EMISSION");
     }
 }
