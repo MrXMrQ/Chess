@@ -487,6 +487,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   savedPieces: []
   flag: 0
+  selectionPrefabName: 
+  selectionIsWhite: 0
+  pos: {x: 0, y: 0}
+  callerIsWhite: 0
 --- !u!4 &542564991
 Transform:
   m_ObjectHideFlags: 0
